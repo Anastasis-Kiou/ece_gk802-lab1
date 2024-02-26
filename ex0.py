@@ -1,6 +1,6 @@
 import requests  # εισαγωγή της βιβλιοθήκης
 
-
+# I did a change
 def more(text):
     count = 0
     for line in text.split('\n'):
@@ -12,8 +12,29 @@ def more(text):
                 break
 
 
-url = 'http://python.org/'  # προσδιορισμός του url
+url = input('Enter a URL: ')  # προσδιορισμός του url
+if not url.startswith("http://"):
+    url = "http://" + url
 
 with requests.get(url) as response:  # το αντικείμενο response
-    html = response.text
-    more(html)
+    # html = response.text
+    # more(html)
+    
+    print(f"Website headers are {url} \n, {response.headers} \n\n")
+    
+    server = response.headers.get('Server')
+    
+    if server:
+        print(f"The server is {server}")
+    else:
+        print("No server found")
+
+    cookies = response.headers.get('Set-Cookie')
+    
+    if cookies:
+        cookies = cookies.split(';')
+        for cookie in cookies:
+            print(f"The cookie is {cookie}")
+            
+        else:
+            print("No cookie found")
